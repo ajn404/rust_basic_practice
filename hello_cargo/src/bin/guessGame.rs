@@ -5,4 +5,5 @@ fn main(){
     let mut guess = String::new();
     io::stdin().read_line(&mut guess).expect("Falied to read line");
     println!("your guess:{}",guess);
+    //生成保密数字
 }
