@@ -13,7 +13,10 @@ fn main(){
         println!("Your guess is :{}",guess);
         //将输入的字符串转成数字
         //u32 32位无符号整数
-        let guess:u32=guess.trim().parse().expect("please type a number");
+        let guess:u32=  match guess.trim().parse(){
+          Ok(num)=>num,
+            Err(_)=>continue,
+        };
         match guess.cmp(&secret_number){
             Ordering::Less=>println!("Too small!"),
             Ordering::Greater=>println!("Too big"),
