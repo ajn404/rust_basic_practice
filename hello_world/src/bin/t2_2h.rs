@@ -3,10 +3,8 @@ fn main() {
     for i in -3..2 {
         sum += i
     }
-
-    assert!(sum == -3);
-
-    for c in 'a'..='z' {
+    assert!(sum == -5);
+    for c in 97..=122 {
         println!("{}",c);
     }
 }
