@@ -1,3 +1,4 @@
+
 fn main() {
     let my_name = "Pascal";
     greet(my_name);
