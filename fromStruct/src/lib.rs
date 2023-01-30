@@ -6,11 +6,8 @@
 //     }
 // }
 
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
-}
+mod front_of_house;
+//将模块内容放到其他文件了
 
 //super
 fn server_order() {}
