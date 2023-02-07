@@ -17,12 +17,10 @@ impl Config {
         Ok(Config {
             query: args[1].clone(),
             file: args[2].clone(),
-            case_sensitive:env::var("CASE_INSENSITIVE").is_err()
+            case_sensitive: env::var("CASE_INSENSITIVE").is_err(),
         })
     }
 }
-
-
 
 // Box<dyn Error>::动态地实现了Error trait的类型
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
@@ -97,4 +95,17 @@ another line of rusT
             search_case_insensitive(query, contents)
         );
     }
+}
+
+/// Adds one to the number given
+///
+/// #Examples
+///
+/// ```
+/// let arg = 5
+/// let answer = minigrep::add_one(arg);
+/// assert_eq!(6,answer);
+
+pub fn add_one(x: i32) -> i32 {
+    x + 1
 }
