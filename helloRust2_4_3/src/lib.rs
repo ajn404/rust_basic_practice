@@ -103,4 +103,7 @@ mod test_struct {
         println!("f1 is {:?}", f1);
         println!("{} is {} bytes long", f1_name, f1_length);
     }
+
+    
+
 }
