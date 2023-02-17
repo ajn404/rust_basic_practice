@@ -38,12 +38,16 @@ fn main() {
 
     let listener = TcpListener::bind("localhost:7878").unwrap();
     let pool = ThreadPool::new(4);
-    for strem in listener.incoming(){
+
+
+    for strem in listener.incoming().take(2){
         let stream = strem.unwrap();
         pool.execute(||{
             handle_connection(stream);
         });
     }
+
+    println!("shutting down")
 
 }
 
@@ -51,6 +55,7 @@ fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 9999];
     //512字节的缓存区
     stream.read(&mut buffer).unwrap();
+    println!("haihaihai");
     // eprint!("Request:{}",String::from_utf8_lossy(&buffer[..]))
     let get = b"GET / HTTP/1.1\r\n";
     let sleep = b"GET /sleep HTTP/1.1\r\n";
