@@ -143,7 +143,27 @@ mod test_struct {
             sign_in_count:32,
             active:false,
         };
-        dbg!(user);
+        dbg!(&user);
+        println!("{:?}",&user);
+        //更好的输出表现
+        println!("{:#?}",&user);
+        
+    }
 
+
+    #[test]
+    fn useDebug(){
+        #[derive(Debug)]
+        struct Rectangle{
+            with:u32,
+            height:u32,
+        }
+
+        let scale = 2;
+        let rect1 = Rectangle{
+            with:100,
+            height:dbg!(scale*30),
+        };
+        dbg!(&rect1);
     }
 }
