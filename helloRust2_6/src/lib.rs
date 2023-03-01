@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+
     #[test]
     fn about_match() {
         enum Action {
@@ -216,40 +217,157 @@ mod tests {
     }
 
     #[test]
-    fn enum_with_struct_complicated_destruction(){
-        struct Point{
-            x:i32,y:i32,
+    fn enum_with_struct_complicated_destruction() {
+        struct Point {
+            x: i32,
+            y: i32,
         }
-        let ((feet,inches),Point { x, y }) = ((30,20),Point{x:3,y:20});
-        dbg!([feet,inches,x,y]);
+        let ((feet, inches), Point { x, y }) = ((30, 20), Point { x: 3, y: 20 });
+        dbg!([feet, inches, x, y]);
     }
 
     #[test]
-    fn array_destruction(){
-        let arr = [114,421];
-        let [x,y] = arr;
-        dbg!([x,y]);
+    fn array_destruction() {
+        let arr = [114, 421];
+        let [x, y] = arr;
+        dbg!([x, y]);
     }
 
     #[test]
-    fn var_length_array_destruction(){
-        let arr = &[114,115];
-        if let [x,..] = arr{
+    fn var_length_array_destruction() {
+        let arr = &[114, 115];
+        if let [x, ..] = arr {
             dbg!(x);
-            assert_eq!(x,&114);
+            assert_eq!(x, &114);
         }
 
-        if let &[..,y] = arr{
+        if let &[.., y] = arr {
             dbg!(y);
         }
-
-
-        let arr:&[u16] = &[];
-        assert!(matches!(arr,[..]));
-        assert!(!matches!(arr, [x,..]));
-
+        let arr: &[u16] = &[];
+        assert!(matches!(arr, [..]));
+        assert!(!matches!(arr, [x, ..]));
     }
 
+    #[test]
+    fn _ignore() {
+        fn foo(_: i32, y: i32) {
+            println!("{}", y);
+        }
+        //比如实现特征时，当你需要特定类型签名但是函数实现并不需要某个参数时。
+        //此时编译器就不会警告说存在未使用的函数参数，就跟使用命名参数一样。
+        foo(3, 4);
+    }
 
+    #[test]
+    fn nested_ignored() {
+        let mut setting_value = Some(5);
+        let new_setting_value = Some(100);
+        match (setting_value, new_setting_value) {
+            (Some(_), Some(_)) => {
+                eprintln!("can't overwrite an existing customized value");
+            }
+            _ => {
+                setting_value = new_setting_value;
+            }
+        }
 
+        dbg!(setting_value);
+
+        //模式匹配一定要类型相同，因此匹配 numbers
+        //元组的模式，也必须有五个值（元组中元素的数量也属于元组类型的一部分）
+    }
+
+    #[test]
+    fn lazy_name() {
+        let s = Some("hhhhh".to_string());
+        if let Some(_s) = s {
+            eprintln!("hahhia");
+        }
+
+        //borrow of partially moved value: `s`
+        // eprintln!("{:?}",s);
+        let x = Some("hhhhh".to_string());
+        if let Some(_) = x {
+            eprintln!("hahhia");
+        }
+
+        eprintln!("{:?}", x);
+    }
+
+    #[test]
+    fn lazy_name_about_dot_dot() {
+        #[derive(Debug)]
+        struct Point {
+            x: i32,
+            y: i32,
+            z: i32,
+        }
+        let origin = Point { x: 0, y: 20, z: 11 };
+        match origin {
+            Point { x, .. } => {
+                dbg!(origin);
+            }
+        }
+
+        let numbers = (1, 2, 3, 4, 5);
+        if let (a, .., b) = numbers {
+            dbg!(numbers);
+        }
+    }
+
+    #[test]
+    //匹配守卫提供的额外条件
+    fn guard_pattern() {
+        let num = Some(4);
+        match num {
+            Some(n) if n <= 4 => {
+                eprintln!("离谱 n={}", n);
+            }
+            _ => {
+                eprintln!("其他")
+            }
+        }
+    }
+
+    #[test]
+    fn guard_pattern_complicated() {
+        let x = 4;
+        let y = true;
+        match x {
+            1..=6 if y => {
+                eprintln!("yes");
+            }
+            _ => eprintln!("no"),
+        }
+    }
+
+    #[test]
+    fn at_bundle() {
+        #[derive(Debug)]
+        enum Message {
+            Hello { id: i32 },
+        }
+
+        let msg = Message::Hello { id: 5 };
+        match msg {
+            Message::Hello {
+                id: id_variable @ 1..=2,
+            } => {
+                dbg!(msg);
+                dbg!(id_variable);
+            },
+
+            Message::Hello { id: 2..=5 } => {
+                eprintln!("second match");
+            },
+            Message::Hello { id }=>{
+                dbg!(id);
+            },
+
+            _=>{
+                eprintln!("hhh");
+            },
+        }
+    }
 }
