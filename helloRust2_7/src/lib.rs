@@ -54,7 +54,7 @@ mod test {
 
         }
         let rec = Rectangle{width:100,height:100};
-        // let rec1 = Rectangle::new(100, 200);
+        // let rec1 = Rectangle::new(100, 200);                                                                    `
         let area = Rectangle::area(&rec);
         
         // let self_area = rec.area();
@@ -63,5 +63,29 @@ mod test {
         dbg!([area,self_area]);
     }
 
+
+    #[test]
+    fn enum_impl(){
+        #[derive(Debug)]
+        enum Message{
+            Quit,
+            Move{x:i32,y:i32},
+            Write(String),
+            ChangeColor(i32,i32,i32),
+        }
+
+        impl Message{
+            fn call(&self){
+                dbg!(self);
+            }
+
+            pub fn quit()->Message{
+                let msg = Message::Quit;
+                msg
+            }
+        }
+        let q =  Message::quit();
+        dbg!(q);
+    }
 
 }
