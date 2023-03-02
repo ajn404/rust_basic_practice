@@ -15,6 +15,7 @@ impl Rectangle {
     }
 }
 
+
 fn greater_than_100(t: i32) {
     if (t <= 100) {
         panic!("less than 100 , get {}", t);

@@ -356,18 +356,18 @@ mod tests {
             } => {
                 dbg!(msg);
                 dbg!(id_variable);
-            },
-
+            }
+            //当你既想要限定分支范围，又想要使用分支的变量时，就可以用 @ 来绑定到一个新的变量上，实现想要的功能。
             Message::Hello { id: 2..=5 } => {
                 eprintln!("second match");
-            },
-            Message::Hello { id }=>{
+            }
+            Message::Hello { id } => {
                 dbg!(id);
-            },
+            }
 
-            _=>{
+            _ => {
                 eprintln!("hhh");
-            },
+            }
         }
     }
 }
