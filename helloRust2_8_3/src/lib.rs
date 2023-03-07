@@ -164,4 +164,7 @@ mod tests {
         let btn = Button;
         let newb = btn.draw();
     }
+    //对象安全的特征才能拥有特征对象
+    //1.方法的返回类型不是Self
+    //2.方法没有任何范型参数
 }
