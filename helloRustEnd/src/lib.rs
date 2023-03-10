@@ -1,7 +1,5 @@
 #[cfg(test)]
 mod vector {
-    use std::ops::Add;
-
     #[test]
     fn create_vec() {
         let v: Vec<i32> = Vec::new();
